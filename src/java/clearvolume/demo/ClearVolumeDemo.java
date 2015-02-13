@@ -3,6 +3,7 @@ package clearvolume.demo;
 import static java.lang.Math.abs;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.IOException;
@@ -37,8 +38,6 @@ import clearvolume.renderer.processors.impl.OpenCLHistogram;
 import clearvolume.renderer.processors.impl.OpenCLTenengrad;
 import clearvolume.renderer.processors.impl.OpenCLTest;
 import clearvolume.transferf.TransferFunctions;
-
-import com.jogamp.newt.awt.NewtCanvasAWT;
 
 public class ClearVolumeDemo
 {
@@ -254,9 +253,7 @@ public class ClearVolumeDemo
 																								lResolutionZ);
 			lClearVolumeRenderer.requestDisplay();
 
-
 		}
-
 
 		lClearVolumeRenderer.close();
 	}
@@ -775,13 +772,13 @@ public class ClearVolumeDemo
 																																																					512,
 																																																					1,
 																																																					true);
-		final NewtCanvasAWT lNewtCanvasAWT = lClearVolumeRenderer.getNewtCanvasAWT();
+		final Component lComponent = lClearVolumeRenderer.getComponent();
 
 		final JFrame lJFrame = new JFrame("ClearVolume");
 		lJFrame.setLayout(new BorderLayout());
 		final Container lContainer = new Container();
 		lContainer.setLayout(new BorderLayout());
-		lContainer.add(lNewtCanvasAWT, BorderLayout.CENTER);
+		lContainer.add(lComponent, BorderLayout.CENTER);
 		lJFrame.setSize(new Dimension(1024, 1024));
 		lJFrame.add(lContainer);
 		SwingUtilities.invokeLater(new Runnable()
@@ -1552,7 +1549,7 @@ public class ClearVolumeDemo
 					 * 768 : 512, 1, i % 2 == 0 ? 768 : 512, i % 2 == 0 ? 768 :
 					 * 512, 1, true);/*
 					 */
-					final NewtCanvasAWT lNewtCanvasAWT = lClearVolumeRenderer.getNewtCanvasAWT();
+					final Component lComponent = lClearVolumeRenderer.getComponent();
 
 					System.out.println("lJFrame.setTitle(...");
 					lJFrame.setTitle("BRAVO! THIS IS A JFRAME! It WORKS! I=" + i);
@@ -1561,7 +1558,7 @@ public class ClearVolumeDemo
 					lContainer.setLayout(new BorderLayout());
 
 					System.out.println("lContainer.add(lNewtCanvasAWT, BorderLayout.CENTER);");
-					lContainer.add(lNewtCanvasAWT, BorderLayout.CENTER);
+					lContainer.add(lComponent, BorderLayout.CENTER);
 					lJFrame.setSize(new Dimension(1024, 1024));
 					lJFrame.add(lContainer);
 

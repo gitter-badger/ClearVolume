@@ -1,5 +1,6 @@
 package clearvolume.renderer;
 
+import java.awt.Component;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
@@ -12,8 +13,6 @@ import clearvolume.renderer.processors.Processor;
 import clearvolume.transferf.TransferFunction;
 import clearvolume.volume.Volume;
 import clearvolume.volume.VolumeManager;
-
-import com.jogamp.newt.awt.NewtCanvasAWT;
 
 /**
  * Interface ClearVolumeRenderer
@@ -598,11 +597,11 @@ ClearVolumeCloseable
 	public Collection<Overlay> getOverlays();
 
 	/**
-	 * Returns a Canvas that can be used to embed this renderer.
+	 * Returns a Component that can be used to embed this renderer.
 	 *
 	 * @return A NewtCanvasAWT object or null if the renderer cannot be embedded.
 	 */
-	public NewtCanvasAWT getNewtCanvasAWT();
+	public Component getComponent();
 
 	/**
 	 * Interface method implementation
