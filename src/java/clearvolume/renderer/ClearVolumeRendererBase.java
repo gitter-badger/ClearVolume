@@ -132,7 +132,7 @@ public abstract class ClearVolumeRendererBase	implements
 	private ControlPanelJFrame mControlFrame;
 
 	// Map of processors:
-	protected Map<String, Processor<?>> mProcessorsMap = new ConcurrentHashMap<>();
+	protected Map<String, Processor<?>> mProcessorsMap = new ConcurrentHashMap<String, Processor<?>>();
 
 	// List of Capture Listeners
 	protected ArrayList<VolumeCaptureListener> mVolumeCaptureListenerList = new ArrayList<VolumeCaptureListener>();

@@ -59,14 +59,15 @@ public abstract class ClearVolumeTCPClientHelper
 			final NativeTypeEnum lNativeType = pBytesPerVoxel == 1 ? NativeTypeEnum.UnsignedByte
 																														: NativeTypeEnum.UnsignedShort;
 
-			try (ClearVolumeRendererSink lClearVolumeRendererSink = new ClearVolumeRendererSink(lWindowTitle,
+			final ClearVolumeRendererSink lClearVolumeRendererSink = new ClearVolumeRendererSink(	lWindowTitle,
 																																													pWindowSize,
 																																													pWindowSize,
 																																													lNativeType,
 																																													pNumberOfLayers,
 																																													cMaxMillisecondsToWaitForCopy,
 																																													TimeUnit.MILLISECONDS,
-																																													cMaxAvailableVolumes);)
+																																														cMaxAvailableVolumes);
+			try
 			{
 
 				lClearVolumeRendererSink.getClearVolumeRenderer()
@@ -155,6 +156,10 @@ public abstract class ClearVolumeTCPClientHelper
 
 				assertTrue(lClearVolumeTCPClient.stop());
 				lClearVolumeTCPClient.close();
+			}
+			finally
+			{
+				lClearVolumeRendererSink.close();
 			}
 		}
 		catch (final UnresolvedAddressException uae)

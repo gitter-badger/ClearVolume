@@ -1,8 +1,6 @@
 package clearvolume.renderer.cleargl.overlay.o2d;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
 
 import javax.media.opengl.GL;
 
@@ -95,7 +93,7 @@ public class ImageQualityOverlay extends OverlayForProcessors	implements
 															getClass().getResourceAsStream(lFontPath))
 									.deriveFont(24.f);
 		}
-		catch (final FontFormatException | IOException e)
+		catch (final Throwable e)
 		{
 			// use a fallback font in case the original couldn't be found or
 			// there has

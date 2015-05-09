@@ -10,7 +10,7 @@ public abstract class ProcessorBase<R>	implements
 																				Processor<R>,
 																				SingleKeyToggable
 {
-	private final ArrayList<ProcessorResultListener<R>> mListenerList = new ArrayList<>();
+	private final ArrayList<ProcessorResultListener<R>> mListenerList = new ArrayList<ProcessorResultListener<R>>();
 
 	private volatile boolean mActive = true;
 

@@ -24,11 +24,11 @@ public class ShepardRissetGlissando extends SourceBase implements
 																											Source
 {
 
-	private float mBottomFrequency;
-	private float mTopFrequency;
-	private float mFrequencySpacing;
+	private final float mBottomFrequency;
+	private final float mTopFrequency;
+	private final float mFrequencySpacing;
 
-	private ArrayList<Sinusoid> mSinusoidList = new ArrayList<>();
+	private final ArrayList<Sinusoid> mSinusoidList = new ArrayList<Sinusoid>();
 
 	/**
 	 * Default constructor with reasonable example parameters.
@@ -60,7 +60,7 @@ public class ShepardRissetGlissando extends SourceBase implements
 
 		for (float lFrequency = mBottomFrequency; lFrequency < mTopFrequency; lFrequency += mFrequencySpacing)
 		{
-			Sinusoid lSinusoid = new Sinusoid(lFrequency);
+			final Sinusoid lSinusoid = new Sinusoid(lFrequency);
 			mSinusoidList.add(lSinusoid);
 		}
 	}
@@ -75,11 +75,11 @@ public class ShepardRissetGlissando extends SourceBase implements
 	 */
 	public void changeVirtualFrequency(float pDeltaFrequencyHertz)
 	{
-		for (Sinusoid lSinusoid : mSinusoidList)
+		for (final Sinusoid lSinusoid : mSinusoidList)
 		{
 			float lFrequency = lSinusoid.getFrequencyInHertz();
 			lFrequency += pDeltaFrequencyHertz;
-			float lFrequencyBand = mTopFrequency - mBottomFrequency;
+			final float lFrequencyBand = mTopFrequency - mBottomFrequency;
 			if (lFrequency > mTopFrequency)
 			{
 				lFrequency -= lFrequencyBand;
@@ -90,7 +90,7 @@ public class ShepardRissetGlissando extends SourceBase implements
 			}
 			lSinusoid.setFrequencyInHertz(lFrequency);
 
-			float lAmplitude = getAmplitudeEnvelopp(lFrequency);
+			final float lAmplitude = getAmplitudeEnvelopp(lFrequency);
 			lSinusoid.setAmplitude(lAmplitude);
 		}
 
@@ -107,8 +107,8 @@ public class ShepardRissetGlissando extends SourceBase implements
 	{
 		if (pFrequency < mBottomFrequency || pFrequency > mTopFrequency)
 			return 0;
-		float lNormalizedFrequency = (pFrequency - mBottomFrequency) / (mTopFrequency - mBottomFrequency);
-		float lAmplitude = (float) (getAmplitude() * pow(	sin(PI * lNormalizedFrequency),
+		final float lNormalizedFrequency = (pFrequency - mBottomFrequency) / (mTopFrequency - mBottomFrequency);
+		final float lAmplitude = (float) (getAmplitude() * pow(	sin(PI * lNormalizedFrequency),
 																									2));
 		return lAmplitude;
 	}
@@ -120,9 +120,9 @@ public class ShepardRissetGlissando extends SourceBase implements
 	public float next()
 	{
 		float lSample = 0;
-		for (Sinusoid lSinusoid : mSinusoidList)
+		for (final Sinusoid lSinusoid : mSinusoidList)
 		{
-			float lSinusoidSample = lSinusoid.next();
+			final float lSinusoidSample = lSinusoid.next();
 			lSample += lSinusoidSample;
 		}
 		return lSample;
@@ -136,9 +136,9 @@ public class ShepardRissetGlissando extends SourceBase implements
 	public int getPeriodInSamples()
 	{
 		int lMaxPeriodInSamples = 0;
-		for (Sinusoid lSinusoid : mSinusoidList)
+		for (final Sinusoid lSinusoid : mSinusoidList)
 		{
-			int lPeriodInSamples = lSinusoid.getPeriodInSamples();
+			final int lPeriodInSamples = lSinusoid.getPeriodInSamples();
 			lMaxPeriodInSamples = max(lMaxPeriodInSamples, lPeriodInSamples);
 		}
 		return lMaxPeriodInSamples;

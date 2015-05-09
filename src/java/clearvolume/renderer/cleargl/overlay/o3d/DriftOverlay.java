@@ -1,8 +1,6 @@
 package clearvolume.renderer.cleargl.overlay.o3d;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
@@ -90,7 +88,7 @@ public class DriftOverlay extends PathOverlay	implements
 															getClass().getResourceAsStream(fontPath))
 									.deriveFont(12.0f);
 		}
-		catch (final FontFormatException | IOException e)
+		catch (final Throwable e)
 		{
 			// use a fallback font in case the original couldn't be found or there has
 			// been a problem

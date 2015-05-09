@@ -30,8 +30,8 @@ public class ChannelFilterSink extends RelaySinkAdapter implements
 	private final Object mLock = new Object();
 	private final ConcurrentHashMap<Integer, String> mSeenChannelIdToNameMap = new ConcurrentHashMap<Integer, String>();
 	private final CopyOnWriteArrayList<Integer> mSeenChannelList = new CopyOnWriteArrayList<Integer>();
-	private final ConcurrentHashMap<Integer, Boolean> mActiveChannelMap = new ConcurrentHashMap<>();
-	private final ConcurrentHashMap<Integer, Volume> mChanneltoVolumeMap = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Integer, Boolean> mActiveChannelMap = new ConcurrentHashMap<Integer, Boolean>();
+	private final ConcurrentHashMap<Integer, Volume> mChanneltoVolumeMap = new ConcurrentHashMap<Integer, Volume>();
 
 	private final VolumeManager mEmptyVolumeManager = new VolumeManager(2);
 	private final VolumeSinkInterface mVolumeSinkForFilteredVolumes = new NullVolumeSink();;

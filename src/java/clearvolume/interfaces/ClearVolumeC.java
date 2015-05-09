@@ -1,5 +1,19 @@
 package clearvolume.interfaces;
 
+import java.awt.EventQueue;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
+import org.bridj.Pointer;
+import org.bridj.Pointer.Releaser;
+import org.bridj.PointerIO;
+
 import clearvolume.network.serialization.ClearVolumeSerialization;
 import clearvolume.network.server.ClearVolumeTCPServerSink;
 import clearvolume.renderer.ClearVolumeRendererInterface;
@@ -15,42 +29,29 @@ import clearvolume.volume.sink.renderer.ClearVolumeRendererSink;
 import clearvolume.volume.sink.timeshift.TimeShiftingSink;
 import clearvolume.volume.sink.timeshift.gui.TimeShiftingSinkJFrame;
 import coremem.types.NativeTypeEnum;
-import org.bridj.Pointer;
-import org.bridj.Pointer.Releaser;
-import org.bridj.PointerIO;
-
-import java.awt.*;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 public class ClearVolumeC
 {
 
 	private static Throwable sLastThrowableException = null;
 
-	private static ConcurrentHashMap<Integer, ClearVolumeRendererInterface> sIDToRendererMap = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, ClearVolumeTCPServerSink> sIDToServerMap = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, VolumeSinkInterface> sIDToVolumeSink = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, AsynchronousVolumeSinkAdapter> sIDToVolumeAsyncSink = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, TimeShiftingSink> sIDToTimeShiftingSink = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, TimeShiftingSinkJFrame> sIDToTimeShiftingSinkJFrame = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, ChannelFilterSink> sIDToChannelFilterSink = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, ChannelFilterSinkJFrame> sIDToChannelFilterSinkJFrame = new ConcurrentHashMap<>();
+	private static ConcurrentHashMap<Integer, ClearVolumeRendererInterface> sIDToRendererMap = new ConcurrentHashMap<Integer, ClearVolumeRendererInterface>();
+	private static ConcurrentHashMap<Integer, ClearVolumeTCPServerSink> sIDToServerMap = new ConcurrentHashMap<Integer, ClearVolumeTCPServerSink>();
+	private static ConcurrentHashMap<Integer, VolumeSinkInterface> sIDToVolumeSink = new ConcurrentHashMap<Integer, VolumeSinkInterface>();
+	private static ConcurrentHashMap<Integer, AsynchronousVolumeSinkAdapter> sIDToVolumeAsyncSink = new ConcurrentHashMap<Integer, AsynchronousVolumeSinkAdapter>();
+	private static ConcurrentHashMap<Integer, TimeShiftingSink> sIDToTimeShiftingSink = new ConcurrentHashMap<Integer, TimeShiftingSink>();
+	private static ConcurrentHashMap<Integer, TimeShiftingSinkJFrame> sIDToTimeShiftingSinkJFrame = new ConcurrentHashMap<Integer, TimeShiftingSinkJFrame>();
+	private static ConcurrentHashMap<Integer, ChannelFilterSink> sIDToChannelFilterSink = new ConcurrentHashMap<Integer, ChannelFilterSink>();
+	private static ConcurrentHashMap<Integer, ChannelFilterSinkJFrame> sIDToChannelFilterSinkJFrame = new ConcurrentHashMap<Integer, ChannelFilterSinkJFrame>();
 
-	private static ConcurrentHashMap<Integer, VolumeManager> sIDToVolumeManager = new ConcurrentHashMap<>();
+	private static ConcurrentHashMap<Integer, VolumeManager> sIDToVolumeManager = new ConcurrentHashMap<Integer, VolumeManager>();
 
-	private static ConcurrentHashMap<Integer, double[]> sIDToVolumeDimensionsInRealUnit = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, Integer> sIDToVolumeTimeIndex = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, Double> sIDToVolumeTimeInSeconds = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, String> sChannelIDToChannelName = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, float[]> sChannelIDToChannelColor = new ConcurrentHashMap<>();
-	private static ConcurrentHashMap<Integer, float[]> sChannelIDToChannelViewMatrix = new ConcurrentHashMap<>();
+	private static ConcurrentHashMap<Integer, double[]> sIDToVolumeDimensionsInRealUnit = new ConcurrentHashMap<Integer, double[]>();
+	private static ConcurrentHashMap<Integer, Integer> sIDToVolumeTimeIndex = new ConcurrentHashMap<Integer, Integer>();
+	private static ConcurrentHashMap<Integer, Double> sIDToVolumeTimeInSeconds = new ConcurrentHashMap<Integer, Double>();
+	private static ConcurrentHashMap<Integer, String> sChannelIDToChannelName = new ConcurrentHashMap<Integer, String>();
+	private static ConcurrentHashMap<Integer, float[]> sChannelIDToChannelColor = new ConcurrentHashMap<Integer, float[]>();
+	private static ConcurrentHashMap<Integer, float[]> sChannelIDToChannelViewMatrix = new ConcurrentHashMap<Integer, float[]>();
 
 	private static volatile long sTimeShiftSoftHoryzon = 10;
 	private static volatile long sTimeShiftHardHoryzon = 20;
@@ -110,6 +111,7 @@ public class ClearVolumeC
 																		final boolean pChannelSelector)
 	{
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					NativeTypeEnum lNativeTypeEnum = NativeTypeEnum.UnsignedShort;

@@ -24,8 +24,8 @@ public class TimeShiftingSink extends RelaySinkAdapter implements
 	private final SwitchableSoftReferenceManager<Volume> mSwitchableSoftReferenceManager;
 
 	private final Object mLock = new Object();
-	private HashMap<Integer, TreeMap<Long, SwitchableSoftReference<Volume>>> mChannelToVolumeListsMap = new HashMap<>();
-	private final TreeSet<Integer> mAvailableChannels = new TreeSet<>();
+	private HashMap<Integer, TreeMap<Long, SwitchableSoftReference<Volume>>> mChannelToVolumeListsMap = new HashMap<Integer, TreeMap<Long, SwitchableSoftReference<Volume>>>();
+	private final TreeSet<Integer> mAvailableChannels = new TreeSet<Integer>();
 
 	private volatile long mSoftMemoryHorizonInTimePointIndices;
 	private volatile long mHardMemoryHorizonInTimePointIndices;
@@ -38,7 +38,7 @@ public class TimeShiftingSink extends RelaySinkAdapter implements
 													long pHardMemoryHoryzonInTimePointIndices)
 	{
 		super();
-		mSwitchableSoftReferenceManager = new SwitchableSoftReferenceManager<>();
+		mSwitchableSoftReferenceManager = new SwitchableSoftReferenceManager<Volume>();
 		mSoftMemoryHorizonInTimePointIndices = Math.min(pSoftMemoryHoryzonInTimePointIndices,
 																										pHardMemoryHoryzonInTimePointIndices);
 		mHardMemoryHorizonInTimePointIndices = Math.max(pHardMemoryHoryzonInTimePointIndices,
@@ -116,7 +116,7 @@ public class TimeShiftingSink extends RelaySinkAdapter implements
 
 			if (lTimePointIndexToVolumeMapReference == null)
 			{
-				lTimePointIndexToVolumeMapReference = new TreeMap<>();
+				lTimePointIndexToVolumeMapReference = new TreeMap<Long, SwitchableSoftReference<Volume>>();
 				mChannelToVolumeListsMap.put(	lVolumeChannelID,
 																			lTimePointIndexToVolumeMapReference);
 			}
